@@ -1,0 +1,246 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Getting Started &#8212; MaccDocs  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using Slurm" href="../slurm/index.html" />
+    <link rel="prev" title="Connection" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Before you can do any work on the HPC cluster, you have to be registered by the administrator on the LDAP directory. If you don’t have an account, please contact the system administrator.</p>
+<div class="section" id="ssh">
+<h2>SSH<a class="headerlink" href="#ssh" title="Permalink to this headline">¶</a></h2>
+<p>Secure Shell (SSH) is a cryptographic network protocol designed for network services securely over an unsecured network. Typical applications include remote command-line, login, and remote command execution. This is the protocol used to access the HPC cluster.</p>
+<div class="section" id="checking-if-you-have-an-ssh-key">
+<h3>Checking if you have an SSH key<a class="headerlink" href="#checking-if-you-have-an-ssh-key" title="Permalink to this headline">¶</a></h3>
+<p>If you don’t already have an SSH key, you must generate one. If you don’t know whether you have already have one, you can check by using the following command to check if existing SSH keys are present:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Lists the files in your .ssh directory, where by default are the SSH keys</span>
+$ ls -la ~/.ssh
+</pre></div>
+</div>
+<p>Check if you already have a public SSH key. By default, the filenames of the public keys are appended with ‘.pub’.</p>
+</div>
+<div class="section" id="i-do-have-an-ssh-key">
+<h3>I do have an SSH key<a class="headerlink" href="#i-do-have-an-ssh-key" title="Permalink to this headline">¶</a></h3>
+<p>In case that you already have an SSH key, you can follow to the next chapter where you will learn to <a class="reference external" href="#head1234">connect yourself to the cluster</a>.</p>
+</div>
+<div class="section" id="i-don-t-have-an-ssh-key">
+<h3>I don’t have an SSH key<a class="headerlink" href="#i-don-t-have-an-ssh-key" title="Permalink to this headline">¶</a></h3>
+<p>The obvious first step is to create an SSH key. Use the following command to create it:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ssh-keygen -t rsa -b <span class="m">4096</span>
+</pre></div>
+</div>
+<p>The options -t and -b where respectively used for specifying the type of key to create, and the key size in bytes.</p>
+<p>This command will prompt you with “Enter a file on which to save the key”. Press Enter, to accept the default file location.</p>
+<p>After, you will be prompted to type a password. Choose a strong password, type it and you are done. In the next chapter you will learn how to <a class="reference external" href="#head1234">connect yourself to the cluster</a>).</p>
+</div>
+</div>
+<div class="section" id="scp">
+<h2>SCP<a class="headerlink" href="#scp" title="Permalink to this headline">¶</a></h2>
+<p>Secure Copy Protocol (SCP) is a protocol created to securely transfer files between a local host and a remote host. SCP uses Secure Shell (SSH) for data transfer and authentication, thus, ensuring the authenticity and confidentiality of the data in transit.</p>
+<div class="section" id="from-a-local-directory-to-a-remote-directory">
+<h3>From a local directory to a remote directory<a class="headerlink" href="#from-a-local-directory-to-a-remote-directory" title="Permalink to this headline">¶</a></h3>
+<p>In case you want to transfer a dataset or a program to the remote host, you can use the following syntax:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp /path/to/your/file user@host:remoteDirectory/targetFile
+</pre></div>
+</div>
+<p>An example where the user (<em>‘johnDoe’</em>) would transfer a file named <em>‘parameters.csv’</em> to a remote host (with the address <em>‘192.168.130.90’</em> as the user <em>‘John’</em>) would result in the following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp /home/johnDoe/Desktop/parameters.csv John@192.168.130.90:/home/John/parameters.csv
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-a-remote-directory-to-a-local-directory">
+<h3>From a remote directory to a local directory<a class="headerlink" href="#from-a-remote-directory-to-a-local-directory" title="Permalink to this headline">¶</a></h3>
+<p>Suppose that you just finished running your application on the cluster and want to transfer the results from it to your laptop. The syntax would be almost the same of the previous command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp user@host:remoteDirectory/sourceFile /path/to/your/location
+</pre></div>
+</div>
+<p>Using the same parameters as the previous example, a file transfer from a remote directory to your machine would be such as:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp John@192.168.130.90:/home/John/parameters.csv  /home/johnDoe/Desktop/parameters.csv
+</pre></div>
+</div>
+</div>
+<div class="section" id="useful-flags">
+<h3>Useful flags<a class="headerlink" href="#useful-flags" title="Permalink to this headline">¶</a></h3>
+<p><strong>-r</strong></p>
+<ul class="simple">
+<li>Sometimes you want to copy a whole directory instead of a single file. This can be achieved using the ‘-r’ flag. Copying a remote directory to your laptop would follow the syntax below:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp -r user@host:/directoryToCopy  /path/to/your/location
+</pre></div>
+</div>
+<p><strong>-P</strong></p>
+<ul class="simple">
+<li>If the remote host uses another port other than the default of 22, you can specify which port to use with the flag ‘-P’. For example: when copying a file from a remote directory:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp -P <span class="m">2222</span> user@host:/directory  /path/to/your/location
+</pre></div>
+</div>
+<p><strong>-i</strong></p>
+<ul class="simple">
+<li>If you have multiple identity files you can choose which one to use with the flag <em>-i</em>:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scp -i /path/to/identity/file user@host:/directoryToCopy  /path/to/your/location
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="rsync">
+<h2>RSync<a class="headerlink" href="#rsync" title="Permalink to this headline">¶</a></h2>
+<p>In case you are connected through an slow and unreliable network and you want to transfer a big file, you should opt for RSync. This protocol is used for efficiently transfer and synchronize files between your computer and an external host. It follows the same syntax as SCP, being is generic syntax:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ rsync  /path/to/your/file user@host:/directoryTarget
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h3>From a local directory to a remote directory<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>An example on how to transfer a local file to a remote directory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ rsync /home/johnDoe/Desktop/parameters.csv John@192.168.130.90:/home/John/parameters.csv
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>From a remote directory to a local directory<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Now, the opposite case from the previous example, where you want to transfer a remote file to your laptop</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ rsync John@192.168.130.90:/home/John/parameters.csv  /home/johnDoe/Desktop/parameters.csv
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Useful flags<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p><strong>-r</strong></p>
+<ul class="simple">
+<li>As in SCP, you can use the ‘-r’ flag to transfer a folder instead of a single file. A small example using this flag would use the following syntax:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ rsync -r John@192.168.130.90:/home/John/results/  /home/johnDoe/Desktop/
+</pre></div>
+</div>
+<p>This utility has a more flags that can be found on is <a class="reference external" href="https://download.samba.org/pub/rsync/rsync.html">documentation</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../registration/index.html">Registration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Connection</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ssh">SSH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#checking-if-you-have-an-ssh-key">Checking if you have an SSH key</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#i-do-have-an-ssh-key">I do have an SSH key</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#i-don-t-have-an-ssh-key">I don’t have an SSH key</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scp">SCP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#from-a-local-directory-to-a-remote-directory">From a local directory to a remote directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#from-a-remote-directory-to-a-local-directory">From a remote directory to a local directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#useful-flags">Useful flags</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rsync">RSync</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">From a local directory to a remote directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">From a remote directory to a local directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Useful flags</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../slurm/index.html">Using Slurm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../virtual_environments/index.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/index.html">Support</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Connection</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Connection</a></li>
+      <li>Next: <a href="../slurm/index.html" title="next chapter">Using Slurm</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/connection/gettingstarted.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Daniel Cruz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/connection/gettingstarted.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

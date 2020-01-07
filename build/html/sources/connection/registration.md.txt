@@ -1,0 +1,36 @@
+# Registration
+
+Before you can do any work on the HPC cluster, you have to be registered by the adiministrator on the LDAP directory.
+
+## SSH
+
+Secure Shell (SSH) is a cryptographic network protocol designed for network services securely over an unsecured network. Typical applications include remote command-line, login, and remote command execution. This is the protocol used to acess the HPC cluster.
+
+### Checking if you have an SSH key
+
+If you don't already have an SSH key, you must generate one. If you don't know whether you have already have one, you can check by using the following command to check if existing SSH keys are present:
+
+```bash
+# Lists the files in your .ssh directory, where by default are the SSH keys
+$ ls -la ~/.ssh
+```
+
+Check if you already have a public SSH key. By default, the filenames of the public keys are appended with '.pub'.
+
+### I don't have an SSH key
+
+The obvious first step is to create an SSH key. Use the following command to create it:
+
+```bash
+$ ssh-keygen -t rsa -b 4096
+```
+
+The options -t and -b where respectively used for specifying the type of key to create, and the key size in bytes.
+
+This command will prompt you with "Enter a file on which to save the key". Press Enter, to accept the default file location.
+
+After, you will be prompted to type a passphrase. Choose a strong password, type it and you are done. In the next chapter you will learn how to connect yourself to the cluster. (REF)
+
+### I do have an SSH key
+
+Follow to the next chapter were you will learn to connect yourself to the cluster. (REF)

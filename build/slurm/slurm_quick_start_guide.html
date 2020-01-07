@@ -1,0 +1,184 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Slurm Quick Start Guide &#8212; MaccDocs  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using Slurm" href="slurm_user_manual.html" />
+    <link rel="prev" title="Using Slurm" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="slurm-quick-start-guide">
+<h1>Slurm Quick Start Guide<a class="headerlink" href="#slurm-quick-start-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>As shown in Figure 2, Slurm is composed by management daemons and , the <strong>slurmctld</strong> that runs on the management node and <strong>slurmd</strong> that runs on every compute node. The figure X presents the architecture of a Slurm cluster. This BLABLABLABLA</p>
+<a class="reference external image-reference" href="#"><img alt="" src="../_images/arch.gif" /></a>
+<p>ALTERAR ESCALA DA IMAGEM</p>
+<p><strong>FALAR MAIS DA ARQUITETURA</strong></p>
+<p>In order to interact with the cluster the user as a list of commands that can be used to multiple purposes. This lists include the following commands: <strong>sacct</strong>, <strong>salloc</strong>, <strong>sattach</strong>, <strong>sbatch</strong>, <strong>sbcast</strong>, <strong>scancel</strong>, <strong>sinfo</strong>, <strong>smap</strong>, <strong>squeue</strong>, <strong>srun</strong>, <strong>strigger</strong> and <strong>sview</strong>. These commands can be executed in any node of the cluster.</p>
+</div>
+<div class="section" id="user-commands">
+<h2>User Commands<a class="headerlink" href="#user-commands" title="Permalink to this headline">¶</a></h2>
+<p>A brief description of the Slurm commands referred above.</p>
+<p><strong>sacct</strong></p>
+<ul class="simple">
+<li>Used to report a job or accounting information about active or completed jobs.</li>
+</ul>
+<p><strong>salloc</strong></p>
+<ul class="simple">
+<li>Used to allocate resources for a job and spawn a shell, is then used to execute <strong>srun</strong> commands to launch tasks.</li>
+</ul>
+<p><strong>sattach</strong></p>
+<ul class="simple">
+<li>Used to attach standard input, output and error to a currently running job or step.</li>
+</ul>
+<p><strong>sbatch</strong></p>
+<ul class="simple">
+<li>Used to submit a job script for later execution. This script is, typically composed of one or more <strong>srun</strong> commands to launch parallel tasks.</li>
+</ul>
+<p><strong>sbcast</strong></p>
+<ul class="simple">
+<li>Used to transfer a file from a local disk to local disk on the nodes allocated to a job.</li>
+</ul>
+<p><strong>scancel</strong></p>
+<ul class="simple">
+<li>Used to cancel a pending or running job or job step. Also, it can be used to send arbitrary signals to all processes associated with the running job or job step.</li>
+</ul>
+<p><strong>sinfo</strong></p>
+<ul class="simple">
+<li>Reports the state of partitions and nodes managed by Slurm, supporting filtering, sorting and formatting options.</li>
+</ul>
+<p><strong>smap</strong></p>
+<ul class="simple">
+<li>As the same purpose as <strong>sinfo</strong> but displays the information graphically.</li>
+</ul>
+<p><strong>squeue</strong></p>
+<ul class="simple">
+<li>Reports the state of jobs or job steps. by default, it reports the running jobs in priority order and then the pending jobs in priority order.</li>
+</ul>
+<p><strong>srun</strong></p>
+<ul class="simple">
+<li>Used to submit a job for execution or start job steps in real time. This command has a wide set of options to specify resource requirements and specific node characteristics. A job can be composed by multiple job steps executing sequentially or in parallel on independent or shared resources within the job’s node allocation.</li>
+</ul>
+<p><strong>strigger</strong></p>
+<ul class="simple">
+<li>Used to create, get and view event triggers, such as nodes going down or jobs reaching their time quota.</li>
+</ul>
+<p><strong>sview</strong></p>
+<ul class="simple">
+<li>A graphic user interface to get and update state information for jobs, partitions and nodes in the Slurm cluster.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../registration/index.html">Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connection/index.html">Connection</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using Slurm</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#overview">Overview</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Slurm Quick Start Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-commands">User Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="slurm_user_manual.html">Using Slurm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../virtual_environments/index.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/index.html">Support</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Using Slurm</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Using Slurm</a></li>
+      <li>Next: <a href="slurm_user_manual.html" title="next chapter">Using Slurm</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/slurm/slurm_quick_start_guide.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Daniel Cruz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/slurm/slurm_quick_start_guide.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
