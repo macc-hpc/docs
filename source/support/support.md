@@ -1,3 +1,0 @@
-# Tickets
-
-OH, NO SUPPORT FOR YOU TODAY!
