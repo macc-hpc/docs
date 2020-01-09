@@ -37,4 +37,69 @@ Here, we can see which jobs are running, with the state *R*, short for running, 
 
 ## Creating a job
 
-The first think that we need to know before creating a job is that it is divided in two parts: jobs steps and resources. Job steps are tasks by which the main job is composed. 
+The first thing to know before creating a job is that it is composed by two parts: jobs steps and resources. Job steps are tasks by which the main job is composed, while resources consist in amounts of CPU, RAM, disk space and computing time.
+
+The most common way to create a job is to write a shell script. For example, in the script below is a simple job where one CPU is requested for one minute along with 100MB of RAM for the job execution. The directives *SBATCH* must appear before the script begins, between the shebang and the script.
+
+```bash
+#!/bin/bash
+#
+#SBATCH --job-name=JobA
+#SBATCH --output=hello.txt
+#
+#SBATCH --ntasks=1
+#SBATCH --time=01:00
+#SBATCH --mem-per-cpu=100
+
+srun echo "Hello Bob!"
+```
+
+In order to submit a shell script for execution we can use the _sbatch_ command, which will respond with the _jobid_ attributed to the job. Once the resources become available and the job has the highest priority, an allocation is made for it so it can run. Typically, a shell script has multiple _srun_ commands, who are responsible for launching the parallel jobs.
+
+```bash
+$ sbatch script.sh 
+Submitted batch job 7880
+```
+
+## Job information
+
+Once the jobs are created we can check their state with:
+
+```bash
+$ sacct
+       JobID    JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+7880               JobA       base                     1    PENDING      0:0 
+```
+
+This command only displays the jobs submitted by the user and not a global view of the submitted jobs on the cluster.
+
+## Job cancel
+
+A user can also cancel a pending or running job, passing the _jobid_ to the _scancel_ command. 
+
+```bash
+$ scancel JobID
+```
+## Job arrays
+
+What if you have an application that needs to be executed five times, each with different input parameters? Instead of creating five individual Slurm scripts you can use job arrays. Job array is a collection of jobs that lets you run similar jobs easily. In order to create a job array, we can use a single Slurm script and use the --array flag to specify a range for the index parameter.
+
+```bash
+sbatch --array <indexlist>[%<limit>] script.sh
+```
+
+You can either specify the range index on the _sbatch_ command or on the bash script. 
+
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=myJobarrayTest
+#SBATCH --nodes=1 --ntasks=1
+#SBATCH --time=5:00
+#SBATCH --output=test_%A_%a.out
+#SBATCH --error=test_%A_%a.err
+#SBATCH --partition sixhour
+#SBATCH --array=1-5
+echo "$SLURM_ARRAY_TASK_ID"
+```

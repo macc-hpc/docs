@@ -72,7 +72,62 @@ JOBID PARTITION     NAME   USER  ST       TIME   NODES NODELIST<span class="o">(
 </div>
 <div class="section" id="creating-a-job">
 <h2>Creating a job<a class="headerlink" href="#creating-a-job" title="Permalink to this headline">¶</a></h2>
-<p>The first think that we need to know before creating a job is that it is divided in two parts: jobs steps and resources. Job steps are tasks by which the main job is composed.</p>
+<p>The first thing to know before creating a job is that it is composed by two parts: jobs steps and resources. Job steps are tasks by which the main job is composed, while resources consist in amounts of CPU, RAM, disk space and computing time.</p>
+<p>The most common way to create a job is to write a shell script. For example, in the script below is a simple job where one CPU is requested for one minute along with 100MB of RAM for the job execution. The directives <em>SBATCH</em> must appear before the script begins, between the shebang and the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#</span>
+<span class="c1">#SBATCH --job-name=JobA</span>
+<span class="c1">#SBATCH --output=hello.txt</span>
+<span class="c1">#</span>
+<span class="c1">#SBATCH --ntasks=1</span>
+<span class="c1">#SBATCH --time=01:00</span>
+<span class="c1">#SBATCH --mem-per-cpu=100</span>
+
+srun <span class="nb">echo</span> <span class="s2">&quot;Hello Bob!&quot;</span>
+</pre></div>
+</div>
+<p>In order to submit a shell script for execution we can use the <em>sbatch</em> command, which will respond with the <em>jobid</em> attributed to the job. Once the resources become available and the job has the highest priority, an allocation is made for it so it can run. Typically, a shell script has multiple <em>srun</em> commands, who are responsible for launching the parallel jobs.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sbatch script.sh
+Submitted batch job <span class="m">7880</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="job-information">
+<h2>Job information<a class="headerlink" href="#job-information" title="Permalink to this headline">¶</a></h2>
+<p>Once the jobs are created we can check their state with:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sacct
+       JobID    JobName  Partition    Account  AllocCPUS      State ExitCode
+------------ ---------- ---------- ---------- ---------- ---------- --------
+<span class="m">7880</span>               JobA       base                     <span class="m">1</span>    PENDING      <span class="m">0</span>:0
+</pre></div>
+</div>
+<p>This command only displays the jobs submitted by the user and not a global view of the submitted jobs on the cluster.</p>
+</div>
+<div class="section" id="job-cancel">
+<h2>Job cancel<a class="headerlink" href="#job-cancel" title="Permalink to this headline">¶</a></h2>
+<p>A user can also cancel a pending or running job, passing the <em>jobid</em> to the <em>scancel</em> command.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ scancel JobID
+</pre></div>
+</div>
+</div>
+<div class="section" id="job-arrays">
+<h2>Job arrays<a class="headerlink" href="#job-arrays" title="Permalink to this headline">¶</a></h2>
+<p>What if you have an application that needs to be executed five times, each with different input parameters? Instead of creating five individual Slurm scripts you can use job arrays. Job array is a collection of jobs that lets you run similar jobs easily. In order to create a job array, we can use a single Slurm script and use the –array flag to specify a range for the index parameter.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sbatch --array &lt;indexlist&gt;<span class="o">[</span>%&lt;limit&gt;<span class="o">]</span> script.sh
+</pre></div>
+</div>
+<p>You can either specify the range index on the <em>sbatch</em> command or on the bash script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=myJobarrayTest</span>
+<span class="c1">#SBATCH --nodes=1 --ntasks=1</span>
+<span class="c1">#SBATCH --time=5:00</span>
+<span class="c1">#SBATCH --output=test_%A_%a.out</span>
+<span class="c1">#SBATCH --error=test_%A_%a.err</span>
+<span class="c1">#SBATCH --partition sixhour</span>
+<span class="c1">#SBATCH --array=1-5</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -94,6 +149,9 @@ JOBID PARTITION     NAME   USER  ST       TIME   NODES NODELIST<span class="o">(
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Using Slurm</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#before-starting">Before starting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#creating-a-job">Creating a job</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#job-information">Job information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#job-cancel">Job cancel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#job-arrays">Job arrays</a></li>
 </ul>
 </li>
 </ul>
