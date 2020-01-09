@@ -45,25 +45,34 @@
   <div class="section" id="using-slurm">
 <h1>Using Slurm<a class="headerlink" href="#using-slurm" title="Permalink to this headline">¶</a></h1>
 <p>In order to understand how Slurm is used in practice, we will present a practical case and then explain how we can use Slurm for its execution, as well as managing its life cycle.</p>
-<p>Let’s suppose that a group of physicists want to use <a class="reference external" href="https://www.openfoam.com">OpenFOAM</a> to study data for a CFD analysis. The first step will be moving the data to the HPC cluster where OpenFoam is installed to process this data.</p>
 <p>Now that everything is ready, the next step is to use Slurm to execute your job.</p>
 <div class="section" id="before-starting">
 <h2>Before starting<a class="headerlink" href="#before-starting" title="Permalink to this headline">¶</a></h2>
 <p>Before submitting a job is important to have a general overview of the cluster. For instance, it is important to know the resources offered by the cluster and which jobs are currently allocating them.</p>
-<p>For this purpose, the <em>sinfo</em> command can be used to get a overview of the resources offered by the cluster, while the <em>squeue</em> command shows which resources are allocated by submitted jobs.</p>
+<p>For this purpose, the <em>sinfo</em> command can be used to get a overview of the resources offered by the cluster, while the <em>squeue</em> command shows which jobs are the resources allocated to.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-base*        up <span class="m">2</span>-00:00:00      <span class="m">2</span> drain* c806-<span class="o">[</span><span class="m">801</span>-802<span class="o">]</span>
-base*        up <span class="m">2</span>-00:00:00    <span class="m">154</span>  down* c805-<span class="o">[</span><span class="m">001</span>-004,203,502,504,903<span class="o">]</span>,c806-<span class="o">[</span><span class="m">001</span>-002,103,201-202,404,601,701,803<span class="o">]</span>,c807-<span class="o">[</span><span class="m">001</span>-004,201,301-303,402,703,802,903-904<span class="o">]</span>,c809-<span class="o">[</span><span class="m">001</span>-004,101-104,201-204,301-304,401-404,501-504,601-604,701-704,801-804,901-904<span class="o">]</span>,c810-<span class="o">[</span><span class="m">001</span>-004,101-104,201-204,301-304,401-404,501-504,601-604,701-704,801-804,901-904<span class="o">]</span>,c811-<span class="o">[</span><span class="m">104</span>,201,204,404,601,701,901<span class="o">]</span>,c812-<span class="o">[</span><span class="m">002</span>,203,601,901<span class="o">]</span>,c813-<span class="o">[</span><span class="m">102</span>,603,801,804,902<span class="o">]</span>,c817-<span class="o">[</span><span class="m">204</span>,304,602,604<span class="o">]</span>,c818-<span class="o">[</span><span class="m">204</span>,301,402,404,504,601<span class="o">]</span>,c819-<span class="o">[</span><span class="m">003</span>,303,401,603-604,704,901-903<span class="o">]</span>,c820-<span class="o">[</span><span class="m">004</span>,503,601<span class="o">]</span>,c821-<span class="o">[</span><span class="m">101</span>,202<span class="o">]</span>,c822-<span class="o">[</span><span class="m">301</span>,702<span class="o">]</span>,c823-<span class="o">[</span><span class="m">504</span>,902<span class="o">]</span>
-base*        up <span class="m">2</span>-00:00:00      <span class="m">2</span>  drain c805-303,c819-804
-base*        up <span class="m">2</span>-00:00:00    <span class="m">206</span>  alloc c805-<span class="o">[</span><span class="m">101</span>-104,201-202,204,301-302,304,401-404,501,503,601,603-604,701-704,801-804,901-902,904<span class="o">]</span>,c806-<span class="o">[</span><span class="m">003</span>-004,101-102,203-204,301-304,401-403,501-504,702-704,804,901-904<span class="o">]</span>,c811-<span class="o">[</span><span class="m">001</span>-004,101-103,202-203,501-504,604,904<span class="o">]</span>,c812-<span class="o">[</span><span class="m">003</span>-004,101-104,201-202,204,301-304,401-404,501-504,602-604,701,703-704,801,803-804,902-904<span class="o">]</span>,c813-901,c817-<span class="o">[</span><span class="m">401</span>-404,501-504,601,603,701-704,801-804,901-903<span class="o">]</span>,c819-<span class="o">[</span><span class="m">001</span>-002,202-204,301-302,304,501-504,601-602,701-703,801-803,904<span class="o">]</span>,c821-<span class="o">[</span><span class="m">203</span>-204,301-304,401-403,501-504,601-602,701-704,801-804,901-904<span class="o">]</span>,c823-<span class="o">[</span><span class="m">001</span>-004,101-104,201-204,301-304,401-404,601-604,701-704,801-803,903-904<span class="o">]</span>
-base*        up <span class="m">2</span>-00:00:00     <span class="m">95</span>   idle c806-<span class="o">[</span><span class="m">104</span>,603-604<span class="o">]</span>,c811-<span class="o">[</span><span class="m">301</span>-304,401-403,602-603,702-704,801-804,902-903<span class="o">]</span>,c812-001,c813-<span class="o">[</span><span class="m">001</span>-004,103-104,201-204,301-304,401-404,501-504,601-602,604,701-704,802-803,903-904<span class="o">]</span>,c817-<span class="o">[</span><span class="m">001</span>-004,101-104,201-203,301-303,904<span class="o">]</span>,c819-<span class="o">[</span><span class="m">004</span>,101-104,201,402-404<span class="o">]</span>,c821-<span class="o">[</span><span class="m">001</span>-004,102-104,201,404,603-604<span class="o">]</span>,c823-<span class="o">[</span><span class="m">501</span>-503,804,901<span class="o">]</span>
-base*        up <span class="m">2</span>-00:00:00    <span class="m">141</span>   down c805-602,c806-602,c807-<span class="o">[</span><span class="m">101</span>-104,202-204,304,401,403-404,501-504,601-604,701-702,704,801,803-804,901-902<span class="o">]</span>,c812-<span class="o">[</span><span class="m">702</span>,802<span class="o">]</span>,c813-101,c818-<span class="o">[</span><span class="m">001</span>-004,101-104,201-203,302-304,401,403,501-503,602-604,701-704,801-804,901-904<span class="o">]</span>,c820-<span class="o">[</span><span class="m">001</span>-003,101-104,201-204,301-304,401-404,501-502,504,602-604,701-704,801-804,901-904<span class="o">]</span>,c822-<span class="o">[</span><span class="m">001</span>-004,101-104,201-204,302-304,401-404,501-504,601-604,701,703-704,801-804,901-904<span class="o">]</span>
-longrun      up <span class="m">6</span>-00:00:00      <span class="m">2</span>  down* c823-<span class="o">[</span><span class="m">504</span>,902<span class="o">]</span>
-longrun      up <span class="m">6</span>-00:00:00     <span class="m">33</span>  alloc c823-<span class="o">[</span><span class="m">001</span>-004,101-104,201-204,301-304,401-404,601-604,701-704,801-803,903-904<span class="o">]</span>
-longrun      up <span class="m">6</span>-00:00:00      <span class="m">5</span>   idle c823-<span class="o">[</span><span class="m">501</span>-503,804,901<span class="o">]</span>
+base*        up <span class="m">2</span>-00:00:00      <span class="m">2</span> drain* c806
+base*        up <span class="m">2</span>-00:00:00    <span class="m">154</span>  down* c805
+longrun      up <span class="m">6</span>-00:00:00     <span class="m">33</span>  alloc c823
+longrun      up <span class="m">6</span>-00:00:00      <span class="m">5</span>   idle c824
 </pre></div>
 </div>
+<p>The above command shows the output of a <em>sinfo</em> execution, showing some info about the cluster. In the first column, we see the available queues on the cluster, being in this case, <em>base</em> and <em>longrun</em>. Usually each of this partitions are used for different purposes. As we can see in the example, the base partition (default) is used for faster jobs, allowing at most 48 hours of execution time. In case the users need to run jobs for longer than that, they can use the <em>longrun</em> partition which support jobs running at most for 144 hours (6 days).</p>
+<p>It is also useful so check the queues to see which jobs are already running, their size and how much time you will have to wait until your job starts executing.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ squeue
+JOBID PARTITION     NAME   USER  ST       TIME   NODES NODELIST<span class="o">(</span>REASON<span class="o">)</span>
+<span class="m">6969</span>   longrun      jobW   userA  R     <span class="m">23</span>:59:05   <span class="m">16</span>   c823
+<span class="m">6970</span>   longrun      jobX   userB  R      <span class="m">5</span>:02:27   <span class="m">16</span>   c825
+<span class="m">7004</span>   base         jobY   userC  R   <span class="m">1</span>-23:00:01   <span class="m">1</span>    c806
+<span class="m">7005</span>   base         jobZ   userD  PD      <span class="m">0</span>:00     <span class="m">32</span>   c812
+</pre></div>
+</div>
+<p>Here, we can see which jobs are running, with the state <em>R</em>, short for running, and which are waiting for resources <em>PD</em>, short for pending.</p>
+</div>
+<div class="section" id="creating-a-job">
+<h2>Creating a job<a class="headerlink" href="#creating-a-job" title="Permalink to this headline">¶</a></h2>
+<p>The first think that we need to know before creating a job is that it is divided in two parts: jobs steps and resources. Job steps are tasks by which the main job is composed.</p>
 </div>
 </div>
 
@@ -84,6 +93,7 @@ longrun      up <span class="m">6</span>-00:00:00      <span class="m">5</span> 
 <li class="toctree-l3"><a class="reference internal" href="slurm_quick_start_guide.html">Slurm Quick Start Guide</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Using Slurm</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#before-starting">Before starting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-job">Creating a job</a></li>
 </ul>
 </li>
 </ul>
