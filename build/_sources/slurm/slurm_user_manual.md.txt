@@ -1,7 +1,0 @@
-# Using Slurm
-
-In order to understand how Slurm is used in practice, we will present a practical case and then explain how we can use Slurm for its execution, as well as managing its life cycle.
-
-Let's suppose that a group of physicists want to use [OpenFOAM](https://www.openfoam.com) to study data for a CFD analysis. The first step will be moving the data to the HPC cluster where OpenFoam is installed to process this data. As shown in the section [[REF TO CONNECTION SCP]], you can use SCP or RSync for this purpose.
-
-Now that everything is ready, the next step is to use Slurm to execute your job. 
