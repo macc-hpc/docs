@@ -1,0 +1,14 @@
+baseURL = "http://help.macc.fct.pt/"
+languageCode = "pt-pt"
+title = "MACC"
+theme = "hugo-theme-learn"
+
+[params]
+  showVisitedLinks = true
+  disableBreadcrumb = false
+  disableNextPrev = true
+  timezone = "Europe/Lisbon"
+  themeVariant = "blue"
+
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
