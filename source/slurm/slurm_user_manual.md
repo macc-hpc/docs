@@ -86,20 +86,52 @@ $ scancel JobID
 What if you have an application that needs to be executed five times, each with different input parameters? Instead of creating five individual Slurm scripts you can use job arrays. Job array is a collection of jobs that lets you run similar jobs easily. In order to create a job array, we can use a single Slurm script and use the --array flag to specify a range for the index parameter.
 
 ```bash
-sbatch --array <indexlist>[%<limit>] script.sh
+sbatch --array [1-5] script.sh
 ```
 
-You can either specify the range index on the _sbatch_ command or on the bash script. 
-
+You can either specify the range index on the _sbatch_ command above or on the bash script like on the example below.
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=myJobarrayTest
-#SBATCH --nodes=1 --ntasks=1
-#SBATCH --time=5:00
+#SBATCH --job-name=Test
+#SBATCH --ntasks=1
+#SBATCH --time=1:00
 #SBATCH --output=test_%A_%a.out
-#SBATCH --error=test_%A_%a.err
-#SBATCH --partition sixhour
+#SBATCH --partition base
 #SBATCH --array=1-5
-echo "$SLURM_ARRAY_TASK_ID"
+
+srun echo "Hello Bob!"
 ```
+
+Submitting the script to Slurm will return a parent _SLURM_ARRAY_JOB_ID_.
+
+```bash
+$ sbatch script.sh
+Submitted batch job 9033
+```
+
+Each sub-job will have a _SLURM_ARRAY_JOB_ID_ that includes both the parent and a _SLURM_ARRAY_TASK_ID_.
+
+```bash
+$ sacct
+9033_1             test       base                    16  COMPLETED      0:0 
+9033_2             test       base                    16  COMPLETED      0:0 
+9033_3             test       base                    16  COMPLETED      0:0 
+9033_4             test       base                    16  COMPLETED      0:0 
+9033_5             test       base                    16  COMPLETED      0:0 
+```
+
+You can also specify that only a certain amount of jobs in the array can tun at a time with the percent sign(%). In this example, only five jobs can run at a time.
+
+```bash
+$ sbatch --array[1-100]%5
+```
+
+In the same manner of a normal job, you can also cancel a job array or a sub-job using the _scancel_ command, specifying the job id or sub job id.
+
+```bash
+$ scancel 9033
+
+$ scancel 9033_1
+```
+
