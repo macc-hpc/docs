@@ -6,27 +6,136 @@ weight: 2
 
 In order to understand how Slurm is used in practice, we will present a practical case and then explain how we can use Slurm for its execution, as well as managing its life cycle.
 
-Let's suppose that a group of physicists want to use [OpenFOAM](https://www.openfoam.com) to study data for a CFD analysis. The first step will be moving the data to the HPC cluster where OpenFoam is installed to process this data.
-
 Now that everything is ready, the next step is to use Slurm to execute your job.
 
 ## Before starting
 
 Before submitting a job is important to have a general overview of the cluster. For instance, it is important to know the resources offered by the cluster and which jobs are currently allocating them.
 
-For this purpose, the _sinfo_ command can be used to get a overview of the resources offered by the cluster, while the _squeue_ command shows which resources are allocated by submitted jobs.
+For this purpose, the _sinfo_ command can be used to get a overview of the resources offered by the cluster, while the _squeue_ command shows which jobs are the resources allocated to.
 
 ```bash
 $ sinfo
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-base*        up 2-00:00:00      2 drain* c806-[801-802]
-base*        up 2-00:00:00    154  down* c805-[001-004,203,502,504,903],c806-[001-002,103,201-202,404,601,701,803],c807-[001-004,201,301-303,402,703,802,903-904],c809-[001-004,101-104,201-204,301-304,401-404,501-504,601-604,701-704,801-804,901-904],c810-[001-004,101-104,201-204,301-304,401-404,501-504,601-604,701-704,801-804,901-904],c811-[104,201,204,404,601,701,901],c812-[002,203,601,901],c813-[102,603,801,804,902],c817-[204,304,602,604],c818-[204,301,402,404,504,601],c819-[003,303,401,603-604,704,901-903],c820-[004,503,601],c821-[101,202],c822-[301,702],c823-[504,902]
-base*        up 2-00:00:00      2  drain c805-303,c819-804
-base*        up 2-00:00:00    206  alloc c805-[101-104,201-202,204,301-302,304,401-404,501,503,601,603-604,701-704,801-804,901-902,904],c806-[003-004,101-102,203-204,301-304,401-403,501-504,702-704,804,901-904],c811-[001-004,101-103,202-203,501-504,604,904],c812-[003-004,101-104,201-202,204,301-304,401-404,501-504,602-604,701,703-704,801,803-804,902-904],c813-901,c817-[401-404,501-504,601,603,701-704,801-804,901-903],c819-[001-002,202-204,301-302,304,501-504,601-602,701-703,801-803,904],c821-[203-204,301-304,401-403,501-504,601-602,701-704,801-804,901-904],c823-[001-004,101-104,201-204,301-304,401-404,601-604,701-704,801-803,903-904]
-base*        up 2-00:00:00     95   idle c806-[104,603-604],c811-[301-304,401-403,602-603,702-704,801-804,902-903],c812-001,c813-[001-004,103-104,201-204,301-304,401-404,501-504,601-602,604,701-704,802-803,903-904],c817-[001-004,101-104,201-203,301-303,904],c819-[004,101-104,201,402-404],c821-[001-004,102-104,201,404,603-604],c823-[501-503,804,901]
-base*        up 2-00:00:00    141   down c805-602,c806-602,c807-[101-104,202-204,304,401,403-404,501-504,601-604,701-702,704,801,803-804,901-902],c812-[702,802],c813-101,c818-[001-004,101-104,201-203,302-304,401,403,501-503,602-604,701-704,801-804,901-904],c820-[001-003,101-104,201-204,301-304,401-404,501-502,504,602-604,701-704,801-804,901-904],c822-[001-004,101-104,201-204,302-304,401-404,501-504,601-604,701,703-704,801-804,901-904]
-longrun      up 6-00:00:00      2  down* c823-[504,902]
-longrun      up 6-00:00:00     33  alloc c823-[001-004,101-104,201-204,301-304,401-404,601-604,701-704,801-803,903-904]
-longrun      up 6-00:00:00      5   idle c823-[501-503,804,901]
+base*        up 2-00:00:00      2 drain* c806
+base*        up 2-00:00:00    154  down* c805
+longrun      up 6-00:00:00     33  alloc c823
+longrun      up 6-00:00:00      5   idle c824
+```
+
+The above command shows the output of a _sinfo_ execution, showing some info about the cluster. In the first column, we see the available queues on the cluster, being in this case, _base_ and _longrun_. Usually each of this partitions are used for different purposes. As we can see in the example, the base partition (default) is used for faster jobs, allowing at most 48 hours of execution time. In case the users need to run jobs for longer than that, they can use the _longrun_ partition which support jobs running at most for 144 hours (6 days).
+
+It is also useful so check the queues to see which jobs are already running, their size and how much time you will have to wait until your job starts executing. 
+
+```bash
+$ squeue
+JOBID PARTITION     NAME   USER  ST       TIME   NODES NODELIST(REASON)
+6969   longrun 		jobW   userA  R     23:59:05   16 	c823
+6970   longrun 		jobX   userB  R      5:02:27   16 	c825
+7004   base   		jobY   userC  R   1-23:00:01   1 	c806
+7005   base    		jobZ   userD  PD      0:00     32 	c812
+```
+ 
+Here, we can see which jobs are running, with the state *R*, short for running, and which are waiting for resources *PD*, short for pending.
+
+
+## Creating a job
+
+The first thing to know before creating a job is that it is composed by two parts: jobs steps and resources. Job steps are tasks by which the main job is composed, while resources consist in amounts of CPU, RAM, disk space and computing time.
+
+The most common way to create a job is to write a shell script. For example, in the script below is a simple job where one CPU is requested for one minute along with 100MB of RAM for the job execution. The directives *SBATCH* must appear before the script begins, between the shebang and the script.
+
+```bash
+#!/bin/bash
+#
+#SBATCH --job-name=JobA
+#SBATCH --output=hello.txt
+#
+#SBATCH --ntasks=1
+#SBATCH --time=01:00
+#SBATCH --mem-per-cpu=100
+
+srun echo "Hello Bob!"
+```
+
+In order to submit a shell script for execution we can use the _sbatch_ command, which will respond with the _jobid_ attributed to the job. Once the resources become available and the job has the highest priority, an allocation is made for it so it can run. Typically, a shell script has multiple _srun_ commands, who are responsible for launching the parallel jobs.
+
+```bash
+$ sbatch script.sh 
+Submitted batch job 7880
+```
+
+## Job information
+
+Once the jobs are created we can check their state with:
+
+```bash
+$ sacct
+       JobID    JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+7880               JobA       base                     1    PENDING      0:0 
+```
+
+This command only displays the jobs submitted by the user and not a global view of the submitted jobs on the cluster.
+
+## Job cancel
+
+A user can also cancel a pending or running job, passing the _jobid_ to the _scancel_ command. 
+
+```bash
+$ scancel JobID
+```
+## Job arrays
+
+What if you have an application that needs to be executed five times, each with different input parameters? Instead of creating five individual Slurm scripts you can use job arrays. Job array is a collection of jobs that lets you run similar jobs easily. In order to create a job array, we can use a single Slurm script and use the --array flag to specify a range for the index parameter.
+
+```bash
+sbatch --array [1-5] script.sh
+```
+
+You can either specify the range index on the _sbatch_ command above or on the bash script like on the example below.
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Test
+#SBATCH --ntasks=1
+#SBATCH --time=1:00
+#SBATCH --output=test_%A_%a.out
+#SBATCH --partition base
+#SBATCH --array=1-5
+
+srun echo "Hello Bob!"
+```
+
+Submitting the script to Slurm will return a parent _SLURM_ARRAY_JOB_ID_.
+
+```bash
+$ sbatch script.sh
+Submitted batch job 9033
+```
+
+Each sub-job will have a _SLURM_ARRAY_JOB_ID_ that includes both the parent and a _SLURM_ARRAY_TASK_ID_.
+
+```bash
+$ sacct
+9033_1             test       base                    16  COMPLETED      0:0 
+9033_2             test       base                    16  COMPLETED      0:0 
+9033_3             test       base                    16  COMPLETED      0:0 
+9033_4             test       base                    16  COMPLETED      0:0 
+9033_5             test       base                    16  COMPLETED      0:0 
+```
+
+You can also specify that only a certain amount of jobs in the array can tun at a time with the percent sign(%). In this example, only five jobs can run at a time.
+
+```bash
+$ sbatch --array[1-100]%5
+```
+
+In the same manner of a normal job, you can also cancel a job array or a sub-job using the _scancel_ command, specifying the job id or sub job id.
+
+```bash
+$ scancel 9033
+
+$ scancel 9033_1
 ```
 
