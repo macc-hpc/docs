@@ -9,6 +9,8 @@ theme = "hugo-theme-learn"
   disableNextPrev = true
   timezone = "Europe/Lisbon"
   themeVariant = "blue"
+  bobSupport = "bob@support.macc.fct.pt"
+  bobAccounts = "accounts@support.macc.fct.pt"
 
 [outputs]
 home = [ "HTML", "RSS", "JSON"]

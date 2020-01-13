@@ -1,0 +1,6 @@
+#sidebar .sep {
+	border: 0;
+	height: 1px;
+	margin-top: 0;
+	background-image: linear-gradient(to right, #2e393f, #3e4c55, #2e393f);
+}

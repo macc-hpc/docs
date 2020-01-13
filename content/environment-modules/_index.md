@@ -8,4 +8,4 @@ pre: "<b>3. </b>"
 
 # Environment Modules
 
-This section will cover the basic usage of environment modules and virtual environments, such Lmod and pyenv. 
+This section will cover the basic usage of environment modules and virtual environments, such Lmod and virtualenv. 
