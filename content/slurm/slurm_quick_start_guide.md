@@ -6,13 +6,10 @@ weight: 1
 
 ## Architecture
 
-As shown in Figure 2, Slurm is composed by management daemons and , the **slurmctld** that runs on the management node and **slurmd** that runs on every compute node. The figure X presents the architecture of a Slurm cluster. This BLABLABLABLA
+As shown in Figure 2, Slurm is composed by management daemons and, the **slurmctld** that runs on the management node and **slurmd** that runs on every compute node. The figure X presents the architecture of a Slurm cluster.
 
+{{< figure src="https://slurm.schedmd.com/arch.gif" title="Slurm architecture" link="https://slurm.schedmd.com/quickstart.html" >}} 
 
-[![](/images/arch.gif)](#)
-ALTERAR ESCALA DA IMAGEM
-
-**FALAR MAIS DA ARQUITETURA**
 
 In order to interact with the cluster the user as a list of commands that can be used to multiple purposes. This lists include the following commands: **sacct**, **salloc**, **sattach**, **sbatch**, **sbcast**, **scancel**, **sinfo**, **smap**, **squeue**, **srun**, **strigger** and **sview**. These commands can be executed in any node of the cluster.
 

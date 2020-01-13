@@ -4,7 +4,7 @@ title = "MACC"
 theme = "hugo-theme-learn"
 
 [params]
-  showVisitedLinks = true
+  showVisitedLinks = false
   disableBreadcrumb = false
   disableNextPrev = true
   timezone = "Europe/Lisbon"
