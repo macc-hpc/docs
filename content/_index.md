@@ -1,3 +1,7 @@
+---
+title: "MACC Documentation"
+date: 2020-01-17T16:03:32Z
+---
 ###	Welcome to the MACC documentation! [[DRAFT VERSION]]
 
 Welcome! Here you will find information that you need to create and run compute jobs on HPC, as well on disk quota, disk space, and special software that can be used only on HPC resources. MACC features 600 compute nodes each equipped with two 8-cores Xeon E5-2680 processors at 2.7 GHz and 32GB of RAM per node, interconnected with an Infiniband FDR network (54Gbps), and having access to a fast 115 TB Lustre parallel filesystem.
