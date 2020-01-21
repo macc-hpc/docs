@@ -1,4 +1,4 @@
-baseURL = "http://help.macc.fct.pt/"
+baseURL = "http://docs.macc.fct.pt/"
 languageCode = "pt-pt"
 title = "MACC"
 theme = "hugo-theme-learn"
