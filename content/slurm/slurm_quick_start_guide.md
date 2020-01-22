@@ -4,6 +4,8 @@ date: 2020-01-06T17:22:32Z
 weight: 1
 ---
 
+Slurm is an open source, fault tolerant, and scalable cluster management and job scheduling system for Linux clusters. When working as a workload manager, Slurm is responsible for various tasks. First, it allocates the resources to users over a period of time, depending on the type of job that the user submits (normal or long run), so they can perform work. Secondly, it provides a framework for starting, executing, and managing work on the set of allocated nodes. Lastly, it controls contention for resources for managing a queue of pending work.
+
 ## Architecture
 
 As shown in Figure 2, Slurm is composed by management daemons and, the **slurmctld** that runs on the management node and **slurmd** that runs on every compute node. The figure X presents the architecture of a Slurm cluster.

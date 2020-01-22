@@ -1,6 +1,7 @@
 ---
 title: "Lmod"
 date: 2020-01-06T17:22:32Z
+weight: 2
 ---
 
 Lmod is a module system that offers a way to dynamically change the users environment through modulefiles, including adding and removing directories from the PATH environment variable. In order to the user communicate with Lmod, it has a list of commands to interact with it.
