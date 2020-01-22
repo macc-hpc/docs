@@ -4,7 +4,7 @@ date: 2020-01-17T16:03:32Z
 ---
 ###	Welcome to the MACC documentation! [[DRAFT VERSION]]
 
-This user’s guide for the MACC' Bob cluster is intended to provide the minimum amount of information needed by a new user of this system. As such, it assumes that the user is familiar with many of the standard features of supercomputing as the Unix operating system.
+This user’s guide for the MACC Bob cluster is intended to provide the minimum amount of information needed by a new user of this system. As such, it assumes that the user is familiar with many of the standard features of supercomputing as the Unix operating system.
 
 Here you will find information that you need to create and run compute jobs on HPC, as well on disk quota, disk space, and special software that can be used only on HPC resources. 
 
