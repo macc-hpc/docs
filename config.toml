@@ -1,4 +1,4 @@
-baseURL = "http://help.macc.fct.pt/"
+baseURL = "http://docs.macc.fct.pt/"
 languageCode = "pt-pt"
 title = "MACC"
 theme = "hugo-theme-learn"
@@ -8,7 +8,7 @@ theme = "hugo-theme-learn"
   disableBreadcrumb = false
   disableNextPrev = true
   timezone = "Europe/Lisbon"
-  themeVariant = "blue"
+  themeVariant = "macc"
   bobSupport = "bob@support.macc.fct.pt"
   bobAccounts = "accounts@support.macc.fct.pt"
 

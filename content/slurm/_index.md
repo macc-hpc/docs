@@ -1,11 +1,12 @@
 ---
-title: "Using slurm"
+title: "Running Jobs"
 date: 2020-01-06T17:22:32Z
-weight: 4
+weight: 5
 chapter: true
 pre: "<b>4. </b>"
 ---
 
 # Overview
 
-Slurm is an open source, fault tolerant, and scalable cluster management and job scheduling system for Linux clusters. When working as a workload manager, Slurm is responsible for various tasks. First, it allocates the resources to users over a period of time, depending on the type of job that the user submits (normal or long run), so they can perform work. Secondly, it provides a framework for starting, executing, and managing work on the set of allocated nodes. Lastly, it controls contention for resources for managing a queue of pending work.
+Slurm is the utility used for batch processing support, so all jobs must be run through it. This section provides information for getting started with job execution at the Bob cluster.
+
