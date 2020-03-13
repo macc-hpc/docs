@@ -1,4 +1,4 @@
-baseURL = "http://docs.macc.fct.pt/"
+baseURL = "http://docs.macc.fccn.pt/"
 languageCode = "pt-pt"
 title = "MACC"
 theme = "hugo-theme-learn"
@@ -9,8 +9,8 @@ theme = "hugo-theme-learn"
   disableNextPrev = true
   timezone = "Europe/Lisbon"
   themeVariant = "macc"
-  bobSupport = "bob@support.macc.fct.pt"
-  bobAccounts = "accounts@support.macc.fct.pt"
+  bobSupport = "bob@support.macc.fccn.pt"
+  bobAccounts = "accounts@support.macc.fccn.pt"
 
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
