@@ -1,7 +1,6 @@
 ---
 title: "MACC Citizenship"
 date: 2020-12-15T18:38:09Z
-draft: true
 weight: 2
 pre: "<b>2. </b>"
 ---
