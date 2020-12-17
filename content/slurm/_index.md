@@ -21,11 +21,3 @@ If your job finishes early and exits properly, Slurm will release the nodes back
 > **Billing = (#nodes) x (#cores = 16) x (job duration)**
 
 MACC does not implement node-sharing on any compute resource. In Bobs' case the **billing will allways collect the value of the 16 CPUs**.
-
-Users with an account at MACC may consult their current bills 
-
-```bash
-$ billing
-# or 
-$ maccinfo
-```

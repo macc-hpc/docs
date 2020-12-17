@@ -1,7 +1,7 @@
 ---
 title: "Using Slurm"
 date: 2020-01-06T17:22:32Z
-weight: 2
+weight: 4
 ---
 
 In order to understand how Slurm is used in practice, we will present a practical case and then explain how we can use Slurm for its execution, as well as managing its life cycle.

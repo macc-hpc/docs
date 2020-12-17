@@ -1,7 +1,7 @@
 ---
 title: "Billing"
 date: 2020-12-17T17:38:51Z
-wheight: 2
+weight: 2
 ---
 
 The Slurm scheduler tracks and charges for usage to a granularity of a few seconds of wall clock time. 
