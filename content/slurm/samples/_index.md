@@ -25,8 +25,10 @@ This is not a one job fits all script. Make changes regarding your particular pr
 ml purge
 # load module
 ml foss/2019a
-# run the job
-mpirun ./test 
+ # Assign the number of processors
+NPROCS=$SLURM_NTASKS
+#Run the job
+mpirun -n $NPROCS ./test
 ```
 
 If you do not enter an account with extra time to charge the job it will not run.
