@@ -21,4 +21,18 @@ These are the Lustre filesystems available in the machine from all nodes:
 Every node has a local solid state (SSD) hard drive (HDD) that can be used as a local scratch space to store temporary files during executions of one of your jobs. This space is mounted over /tmp/ directory. The amount of space within the /tmp filesystem is about 8 GB. All data stored in these local hard drives at the compute nodes will not be available from the login nodes.
 
 ##  Quotas
-TODO
+
+Bob mounts the two file systems that are shared across all nodes: **home** and **scratch**.
+
+The system also defines for you corresponding account-level environment variables $HOME and $SCRATCH. Consult Table  
+
+ for quota and purge policies on these file systems.
+
+Several aliases are provided for users to move easily between file systems:
+* Use the "cdh" or "cd" commands to change to $HOME
+* Use the "cds" command to change to $SCRATCH
+
+|  **File System**   |     **Quota**      |
+| ------------------ | ------------------ |
+|         HOME       |         50G        |
+|       SCRATCH      |          1T        |
