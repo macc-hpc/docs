@@ -17,7 +17,8 @@ You share Bob with many users, and what you do on the system affects others. Thu
 
 ### Do Not Run Jobs on the Login Nodes
 
-Bob's login nodes are shared among all users. Dozens of users may be logged on at one time accessing the file systems. Think of the login nodes as a prep area, where users may 
+Bob's login nodes are shared among all users. Dozens of users may be logged on at one time accessing the file systems. Think of the login nodes as a prep area, where users may
+
 * edit and manage files
 * compile code
 * perform file management
