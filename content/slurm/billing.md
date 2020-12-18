@@ -4,6 +4,10 @@ date: 2020-12-17T17:38:51Z
 weight: 2
 ---
 
+The usage of the hours allocated to each project is of the **full responsibility of the intervenients in that project**.
+
+To avoid bad surprises you should **only use the resources that you need**, we recommend you read the  [resources to request]({{%relref "slurm/allocations.md" %}})
+
 The Slurm scheduler tracks and charges for usage to a granularity of a few seconds of wall clock time. 
 
 **The system charges only for the resources you actually use, not those you request**.
@@ -65,7 +69,7 @@ This will translate into the following billing table.
 
 The resources are **not shared**. When allocating a node, the full 16 CPUs (cores) from that node will be allocated whether or not all cores are used.
 
-Users with an account at MACC may consult their current bills 
+Users with an account at MACC may consult their your current projects and current bills 
 
 ```bash
 $ billing
