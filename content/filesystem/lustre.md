@@ -33,11 +33,11 @@ Several aliases are provided for users to move easily between file systems:
 * Use the "**cdh**" or "**cd**" commands to change to **$HOME**
 * Use the "**cds**" command to change to **$SCRATCH**
 
-|  **File System**   |     **Quota**       |
-|         ---        |         ---         |
-|         HOME       |        50 GB        |
-|       SCRATCH      |         1 TB        |
-|       PROJECT      |         ? TB        |
+|  **File System**   |      **Quota Target**    | **Quota**      |
+|         ---        |           ---            |    ---         |
+|         HOME       |           User           |   50 GB        |
+|       SCRATCH      |           User           |    1 TB        |
+|       PROJECT      |          Group           |    ? TB        |
 
 
 For each project a **shared file system** is mounted with different sizes. To consult the status of quotas of a specific project, that you are a member of, you may use :
