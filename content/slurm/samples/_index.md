@@ -15,8 +15,8 @@ This is not a one job fits all script. Make changes regarding your particular pr
 #SBATCH --output=job_example-%j.log
 # Number of nodes that will be allocated
 #SBATCH --nodes=3
-# Total number of tasks/processes that will run 24 - 8 per node (Max per node:16 - number of cores)
-#SBATCH --ntasks=24
+# Total number of tasks/processes that will run 48 - 16 per node (Max per node:16 - number of cores)
+#SBATCH --ntasks=48
 # Max job duration (hour:minute:second)
 #SBATCH --time=01:00:00
 # Required - Project/Allocation name - project to whitch the job will be billed
