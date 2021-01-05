@@ -49,5 +49,5 @@ Several aliases are provided for users to move easily between file systems:
 For each project a **shared file system** is mounted with different sizes. To consult the status of quotas of a specific project, that you are a member of, you may use :
 
 ```bash
-lfs quota -h -g <project_code> /fs/scratch/shared/<project_code>
+lfs quota -h -g <project_code> /fs/scratch
 ```
