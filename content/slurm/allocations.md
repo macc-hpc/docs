@@ -26,9 +26,9 @@ There are several queues present in the machines and different users may access 
 The standard configuration and limits of the queues are the following
 
 
-| Queue | Maximum Nodes Per Job | Maximum Nodes Per User | Maximum Job Time |
-|---|---|---|---|
-|base	 | 48 | 144	| 24 h |
+| Queue | Maximum Nodes Per Project | Maximum Job Time |
+|---|---|---|
+|base | 144	| 24 h |
 
 
 For longer and/or larger executions special queues are available upon request and will require proof of scalability and application performance. To solicit access to these special queues please contact us.
