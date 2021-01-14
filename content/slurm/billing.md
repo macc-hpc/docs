@@ -16,7 +16,27 @@ The Slurm scheduler tracks and charges for usage to a granularity of a few secon
 
 **MACC does not implement node-sharing on any compute resource**. Thus, a node can only be assigned to one user at a time; hence a complete node is dedicated to a user's job and accumulates wall-clock time for all the node's cores whether or not all cores are used.
 
-### Examples
+
+Currently, we have the policy at MACC that you **cannot order more than what you can "pay for"**. This means that if you only have X hours Free in your project you may only submit a job which bill will **not** surpass that value. Otherwise, your job would be cut down before it finished.
+
+Thus, to fully use your project hours capability you may need to adjust the number of resources you are asking for.
+
+> **Billing = (#nodes) x (#cores = 16) x (job duration)**
+
+
+
+| #Hours | #Nodes | Total Billed Hours| Total Billed Minutes| Run |
+|---|---|---|---|---|
+|24 | 1 | 384 H | 23040 Min| |
+|24 | 2 | 768 H | 46080 Min| |
+|12 | 1 | 192 H | 11520 Min| X |
+|12 | 2 | 384 H | 23040 Min| |
+|4 | 3 | 192 H | 11520 Min| X |
+|4 | 1 | 64 H | 3840 Min| X |
+
+Imagine that you have **200 H to use** in your project.
+**Only the job resource combination marked with an X would run in the queue.**
+
 
 The most common way to create a job is to write a shell script.
 For example, in the scripts below we will show simple examples to re
